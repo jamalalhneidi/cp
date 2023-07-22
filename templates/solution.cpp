@@ -1,5 +1,14 @@
 #include<bits/stdc++.h>
 
+#ifdef LOCAL
+
+#include "../templates/dbg.cpp"
+
+#else
+#define dbg(...)
+#define dbgln(...)
+#endif
+
 using namespace std;
 
 typedef long long ll;

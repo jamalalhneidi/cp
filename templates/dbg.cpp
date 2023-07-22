@@ -52,6 +52,7 @@ void debug_out(
 
 template<typename Head, typename... Tail>
 void debug_out(vector<string> args, int idx, int LINE_NUM, bool ln, Head H, Tail... T) {
+    cerr << "\033[92m";
     if (!ln && idx)
         cerr << ", ";
     else {
