@@ -7,11 +7,6 @@ struct ModInt {
         if (value < 0) value += MOD;
     }
 
-    ModInt(long long a, long long b) : value(0) {
-        *this += a;
-        *this /= b;
-    }
-
     ModInt &operator+=(ModInt const &b) {
         value += b.value;
         if (value >= MOD) value -= MOD;
@@ -29,19 +24,7 @@ struct ModInt {
         return *this;
     }
 
-    friend ModInt mexp(ModInt a, long long e) {
-        ModInt res = 1;
-        while (e) {
-            if (e & 1) res *= a;
-            a *= a;
-            e >>= 1;
-        }
-        return res;
-    }
-
-    friend ModInt inverse(ModInt a) { return mexp(a, MOD - 2); }
-
-    ModInt &operator/=(ModInt const &b) { return *this *= inverse(b); }
+    ModInt &operator/=(const ModInt &b) { return *this *= b.inv(); }
 
     friend ModInt operator+(ModInt a, ModInt const b) { return a += b; }
 
@@ -80,6 +63,19 @@ struct ModInt {
         operator--();
         return old;
     }
+
+    ModInt pow(long long e) const {
+        if (e < 0) return inv().pow(-e);
+        ModInt a = *this, res = 1;
+        while (e) {
+            if (e & 1) res *= a;
+            a *= a;
+            e >>= 1;
+        }
+        return res;
+    }
+
+    ModInt inv() const { return pow(MOD - 2); }
 
 };
 
