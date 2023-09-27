@@ -57,8 +57,6 @@ echo Running...
 rm $exe
 
 
-# TODO compare out.txt to expected.txt
-
 if [ ! -f $expected ]
 then exit 0
 fi
