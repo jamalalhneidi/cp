@@ -10,55 +10,68 @@ in=$2
 out=$3
 expected=$4
 
-if [ $path == $source ]
-then
+compile() {
+    echo "Compiling..."
+    g++ $1 -o "$2" -std=c++23 -DLOCAL -Wl,-z,stack-size=256000000
+}
+
+run() {
+    echo "Running..."
+    ./"$1" <$2 >$3
+}
+
+if [ $path == $source ]; then
     path="./"
 else
     path=$path/
 fi
 
-if [ -z $in ]
-then in="${path}in.txt"
+if [ $2 == "-p" ]; then
+    compile $source $exe
+    if [ $? != 0 ]; then
+        exit $?
+    fi
+    echo Running...
+    ./"$exe"
+    rm $exe
+    exit
 fi
 
-if [ -z $out ]
-then out="${path}out.txt"
+if [ -z $in ]; then
+    in="${path}in.txt"
 fi
 
-if [ -z $expected ]
-then expected="${path}expected.txt"
+if [ -z $out ]; then
+    out="${path}out.txt"
 fi
 
-if [ -z $source ]
-then 
+if [ -z $expected ]; then
+    expected="${path}expected.txt"
+fi
+
+if [ -z $source ]; then
     echo "Where .cpp?"
     exit 0
-elif [ ! -f $source ]
-then 
+elif [ ! -f $source ]; then
     echo "No such file: $source"
     exit 0
-elif [ ! -f $in ]
-then 
+elif [ ! -f $in ]; then
     echo "where $in?"
     exit 0
 fi
 
+compile $source $exe
 
-echo Compiling...
-g++ -o "$exe" -std=c++23 -DLOCAL -Wl,-z,stack-size=256000000 $source
-
-if [ $? != 0 ]
-then exit $?
+if [ $? != 0 ]; then
+    exit $?
 fi
 
-echo Running...
-./"$exe" < $in > $out
+run $exe $in $out
 
 rm $exe
 
-
-if [ ! -f $expected ]
-then exit 0
+if [ ! -f $expected ]; then
+    exit 0
 fi
 
 echo "Comparing program's output with expected output..."
