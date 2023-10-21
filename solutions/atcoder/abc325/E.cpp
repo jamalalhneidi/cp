@@ -2,7 +2,7 @@
 https://atcoder.jp/contests/abc325/tasks/abc325_e
 
 dijkstra
-shortest paths
+shortest path
 
 
  */
