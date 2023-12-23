@@ -1,7 +1,9 @@
 struct UF {
+   private:
     vi p, size;
     int cc;
 
+   public:
     UF(int n) {
         p = vi(n);
         size = vi(n, 1);
@@ -15,8 +17,8 @@ struct UF {
 
     bool join(int u, int v) {
         u = find(u), v = find(v);
-        if (u == v)return false;
-        if (size[u] < size[v])swap(u, v);
+        if (u == v) return false;
+        if (size[u] < size[v]) swap(u, v);
         p[v] = u;
         size[u] += size[v];
         --cc;
@@ -34,5 +36,4 @@ struct UF {
     int getCC() const {
         return cc;
     }
-
 };
