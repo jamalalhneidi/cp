@@ -2,7 +2,7 @@
 
 #ifdef LOCAL
 
-#include "../templates/dbg.cpp"
+#include "templates/others/dbg.cpp"
 
 #else
 #define dbg(...)
@@ -31,7 +31,7 @@ typedef set<int> si;
 typedef set<ll> sll;
 typedef map<int, int> mii;
 typedef map<ll, ll> mll;
-#define fast ios_base::sync_with_stdio(false),cin.tie(nullptr),cout.tie(nullptr)
+#define fast ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr)
 #define endl '\n'
 #define all(a) a.begin(), a.end()
 #define yes "YES"
@@ -46,18 +46,21 @@ typedef map<ll, ll> mll;
 #define eb emplace_back
 #define F first
 #define S second
-#define cin(a) for(auto &_x:(a)) cin>>_x
-#define cin2(a) for(auto &_x:(a))for(auto &__x:_x) cin>>__x
-#define cout(a) for(auto &_x:(a)) cout<<_x<<spc
-#define len(l, r) ((r)-(l)+1)
-#define mid(l, r) ((l)+((r)-(l))/2)
-#define ceil(a, b) (!(a)?0:((a)-1)/(b)+1)
-#define yn(b) ((b)?yes:no)
+#define cin(a) \
+    for (auto &_x : (a)) cin >> _x
+#define cin2(a)          \
+    for (auto &_x : (a)) \
+        for (auto &__x : _x) cin >> __x
+#define cout(a) \
+    for (auto &_x : (a)) cout << _x << spc
+#define len(l, r) ((r) - (l) + 1)
+#define mid(l, r) ((l) + ((r) - (l)) / 2)
+#define ceil(a, b) (!(a) ? 0 : ((a)-1) / (b) + 1)
+#define yn(b) ((b) ? yes : no)
 #define between(x, l, r) ((x) >= (l) && (x) <= (r))
-#define between2(i, j, n, m) (between(i,0,n-1) && between(j,0,m-1))
+#define between2(i, j, n, m) (between(i, 0, n - 1) && between(j, 0, m - 1))
 
 void solve() {
-
 }
 
 #define MULTI
@@ -70,7 +73,7 @@ int main() {
 #endif
     for (int i = 1; i <= t; ++i) {
         solve();
-        i != t && cout << endl;
+        i != t &&cout << endl;
     }
 }
 /*

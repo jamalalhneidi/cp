@@ -1,1 +1,3 @@
-.vscode
+.cph
+*.cpp
+cleanable
