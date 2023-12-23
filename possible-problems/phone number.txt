@@ -1,0 +1,12 @@
+Given a string S, consisting of digits from 0 to 9, and a die with 10 faces each containing one digit from 0 to 9. 
+We perform the following two-steps operation until the string becomes empty:
+    1. Roll the die. Let the outcome be x.
+    2. If x equals the first digit of the string, delete it. Otherwise, do nothing.
+Calculate the expected number of times we perform the operation.
+
+
+/*
+can be made more fun by making up a story about a dude who wants to call a number,
+but instead of entering the digits one by one, he presses a random digit on the keypad,
+and if the digit doesnt match the corresponding digit of the number he deletes it and tries again
+*/
