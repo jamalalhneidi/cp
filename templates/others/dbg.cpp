@@ -1,6 +1,6 @@
 #include <iostream>
-#include <vector>
 #include <sstream>
+#include <vector>
 
 using namespace std;
 
@@ -32,13 +32,13 @@ vector<string> vec_splitter(string s) {
     return res;
 }
 
-template<class T1, class T2>
+template <class T1, class T2>
 ostream &operator<<(ostream &os, const pair<T1, T2> &p) {
     return os << '{' << p.first << ", " << p.second << '}';
 }
 
-template<class T, class = decay_t<decltype(*begin(declval<T>()))>,
-        class = enable_if_t<!is_same<T, string>::value>>
+template <class T, class = decay_t<decltype(*begin(declval<T>()))>,
+          class = enable_if_t<!is_same<T, string>::value>>
 ostream &operator<<(ostream &os, const T &c) {
     os << '[';
     for (auto it = c.begin(); it != c.end(); ++it)
@@ -47,14 +47,13 @@ ostream &operator<<(ostream &os, const T &c) {
 }
 
 void debug_out(
-        const vector<string> __attribute__((unused)) &args,
-        __attribute__((unused)) int idx,
-        __attribute__((unused)) int LINE_NUM,
-        __attribute__((unused)) bool ln) { cerr << endl; }
+    const vector<string> __attribute__((unused)) & args,
+    __attribute__((unused)) int idx,
+    __attribute__((unused)) int LINE_NUM,
+    __attribute__((unused)) bool ln) { cerr << endl; }
 
-template<typename Head, typename... Tail>
+template <typename Head, typename... Tail>
 void debug_out(vector<string> args, int idx, int LINE_NUM, bool ln, Head H, Tail... T) {
-    cerr << "\033[92m";
     if (!ln && idx)
         cerr << ", ";
     else {
