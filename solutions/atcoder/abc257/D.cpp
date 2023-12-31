@@ -1,4 +1,7 @@
 /*
+
+Jumping Takahashi 2
+
 https://atcoder.jp/contests/abc257/tasks/abc257_d
 
 binary search

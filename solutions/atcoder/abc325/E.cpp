@@ -1,4 +1,7 @@
 /*
+
+Our clients, please wait a moment
+
 https://atcoder.jp/contests/abc325/tasks/abc325_e
 
 dijkstra
