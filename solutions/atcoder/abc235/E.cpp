@@ -1,3 +1,16 @@
+/*
+
+MST + 1
+
+https://atcoder.jp/contests/abc235/tasks/abc235_e
+
+graphs
+DSU
+MST
+Parallel offline queries
+
+ */
+
 #include "bits/stdc++.h"
 
 #ifdef LOCAL
