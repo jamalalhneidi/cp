@@ -7,7 +7,6 @@
             "args": [
                 "-std=c++23",
                 "-DLOCAL",
-                "-O2",
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",
