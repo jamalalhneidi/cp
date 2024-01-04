@@ -9,6 +9,7 @@ bfs
 multisource bfs
 divide and conquer
 shortest paths
+
 *2600
 
 first 2600 to solve

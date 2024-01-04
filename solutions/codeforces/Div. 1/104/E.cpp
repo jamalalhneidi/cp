@@ -1,15 +1,12 @@
 /*
 
-Happy Life in University
+Lucky Queries
 
-https://codeforces.com/contest/1916/problem/E
+https://codeforces.com/contest/145/problem/E
 
-graphs
-trees
 segment tree (lazy propagation)
-ruler tour
 
-*2300
+*2400
 
 
 
@@ -77,45 +74,86 @@ typedef map<ll, ll> mll;
 #define between(x, l, r) ((x) >= (l) && (x) <= (r))
 #define between2(i, j, n, m) (between(i, 0, n - 1) && between(j, 0, m - 1))
 
-struct ST {
-    int n, h;
-    vi t, d;
+struct Node {
+    int ans[2]{0}, c[2][2]{0};
+    bool state = false;
 
-    ST(int n) {
-        this->n = n;
-        h = 32 - countl_zero((unsigned)n);
-        t.resize(2 * n);
-        d.resize(n);
+    Node() {}
+
+    Node(int v) {
+        c[state][v]++;
+        c[!state][!v]++;
+        ans[0] = ans[1] = 1;
     }
 
-    void apply(int i, int x) {
-        t[i] += x;
-        if (i < n) d[i] += x;
+    Node operator+(Node &that) {
+        Node res;
+        for (int i = 0; i < 2; ++i) {
+            res.ans[res.state ^ i] = max(c[state ^ i][0] + that.ans[that.state ^ i],
+                                         ans[state ^ i] + that.c[that.state ^ i][1]);
+            for (int j = 0; j < 2; ++j) {
+                res.c[res.state ^ i][j] = c[state ^ i][j] + that.c[that.state ^ i][j];
+            }
+        }
+        return res;
+    }
+
+    Node operator^(int x) {
+        state ^= x;
+        return *this;
+    }
+
+    Node operator^=(int x) {
+        return *this ^ x;
+    }
+};
+
+struct ST {
+    int n, h;
+    vector<Node> t;
+    vi d;
+
+    ST(int n, vi &a) {
+        this->n = n;
+        h = 32 - countl_zero(unsigned(n));
+        t.resize(2 * n);
+        d.resize(n);
+        for (int i = 0; i < n; ++i) {
+            t[i + n] = {a[i]};
+        }
+        for (int i = n - 1; i; --i) {
+            t[i] = t[i << 1] + t[i << 1 | 1];
+        }
+    }
+
+    void apply(int i) {
+        t[i] ^= 1;
+        if (i < n) d[i] ^= 1;
     }
 
     void push(int p) {
-        for (int i = h; i > 0; --i) {
-            int j = p >> i;
-            if (d[j]) {
-                apply(j << 1, d[j]);
-                apply(j << 1 | 1, d[j]);
-                d[j] = 0;
+        for (int j = h; j; --j) {
+            int i = p >> j;
+            if (d[i]) {
+                apply(i << 1);
+                apply(i << 1 | 1);
+                d[i] = 0;
             }
         }
     }
 
     void build(int i) {
         for (i >>= 1; i; i >>= 1) {
-            t[i] = max(t[i << 1], t[i << 1 | 1]) + d[i];
+            t[i] = (t[i << 1] + t[i << 1 | 1]) ^ d[i];
         }
     }
 
-    void update(int l, int r, int x) {
+    void update(int l, int r) {
         l += n, r += n + 1;
         int l0 = l, r0 = r;
         for (; l < r; l >>= 1, r >>= 1) {
-            if (l & 1) apply(l++, x);
-            if (r & 1) apply(--r, x);
+            if (l & 1) apply(l++);
+            if (r & 1) apply(--r);
         }
         build(l0);
         build(r0 - 1);
@@ -125,68 +163,38 @@ struct ST {
         l += n, r += n + 1;
         push(l);
         push(r - 1);
-        int res = NINF;
+        Node resl, resr;
         for (; l < r; l >>= 1, r >>= 1) {
-            if (l & 1) res = max(res, t[l++]);
-            if (r & 1) res = max(res, t[--r]);
+            if (l & 1) resl = resl + t[l++];
+            if (r & 1) resr = t[--r] + resr;
         }
-        return res;
+        Node res = resl + resr;
+        return res.ans[res.state];
     }
 };
 
 void solve() {
-    int n;
-    cin >> n;
-    vvi adj(n);
-    for (int i = 1; i < n; ++i) {
-        int p;
-        cin >> p;
-        adj[p - 1].pb(i);
-    }
+    int n, q;
+    cin >> n >> q;
     vi a(n);
-    cin(a), --_x;
-    vi l(n), r(n);
-    int time = 0;
-    vvi down(n), up(n);
-    // down[vertex] = {closest vertices in its children subtrees with the same color}
-    // up[color].back() = closest parent with the same color
-    function<void(int)> dfs1 = [&](int u) {
-        l[u] = time++;
-        up[a[u]].pb(u);
-        for (auto v : adj[u]) {
-            if (up[a[v]].size())
-                down[up[a[v]].back()].pb(v);
-            dfs1(v);
+    for (int i = 0; i < n; ++i) {
+        char c;
+        cin >> c;
+        a[i] = c == '7';
+    }
+    ST st(n, a);
+    while (q--) {
+        string s;
+        cin >> s;
+        if (s == "count") {
+            cout << st.query(0, n - 1) << endl;
+        } else {
+            int l, r;
+            cin >> l >> r;
+            st.update(l - 1, r - 1);
         }
-        up[a[u]].pop_back();
-        r[u] = time - 1;
-    };
-    dfs1(0);
-    ST st(time);
-    ll ans = 0;
-    function<void(int)> dfs = [&](int u) {
-        for (auto v : adj[u]) {
-            dfs(v);
-        }
-        st.update(l[u], r[u], 1);
-        for (auto v : down[u]) {
-            st.update(l[v], r[v], -1);
-        }
-        int mx1 = 1, mx2 = 1;
-        for (auto v : adj[u]) {
-            int x = st.query(l[v], r[v]);
-            if (x > mx1)
-                mx2 = mx1, mx1 = x;
-            else
-                mx2 = max(mx2, x);
-        }
-        ans = max(ans, (ll)mx1 * mx2);
-    };
-    dfs(0);
-    cout << ans;
+    }
 }
-
-#define MULTI
 
 int main() {
     fast;
