@@ -9,6 +9,8 @@ segment tree (lazy propagation)
 
 *2400
 
+ref:
+https://blog.csdn.net/DERITt/article/details/50267747
 
  */
 
