@@ -147,17 +147,11 @@ void solve() {
     int ans = 0;
     for (int i = 0; i < n; ++i) {
         int j = f(a[i]);
-        if (j == m)
-            st.update(j, j, -1, 1, 0, m);
-        else
-            st.update(0, j, -1, 1, 0, m);
+        st.update(0, j, -1, 1, 0, m);
         if (i >= m - 1) {
             ans += st.query(0, m, 1, 0, m) >= 0;
             j = f(a[i - m + 1]);
-            if (j == m)
-                st.update(j, j, 1, 1, 0, m);
-            else
-                st.update(0, j, 1, 1, 0, m);
+            st.update(0, j, 1, 1, 0, m);
         }
     }
     cout << ans;
