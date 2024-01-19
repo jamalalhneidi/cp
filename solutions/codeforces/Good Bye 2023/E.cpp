@@ -7,7 +7,7 @@ https://codeforces.com/contest/1916/problem/E
 graphs
 trees
 segment tree (lazy propagation)
-ruler tour
+euler tour
 
 *2300
 
