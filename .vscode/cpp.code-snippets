@@ -331,5 +331,44 @@
             ""
         ],
         "description": "Rollback Union Find"
-}
+},   
+    "FT": {
+        "prefix": "FT",
+        "body": [
+            "template <class T = int>\r",
+            "struct FT {\r",
+            "    int n;\r",
+            "    vector<T> t;\r",
+            "\r",
+            "    FT(int n) {\r",
+            "        this->n = n + 1;\r",
+            "        t.resize(n + 1);\r",
+            "    }\r",
+            "\r",
+            "    FT(vector<T> &a) : FT(a.size()) {\r",
+            "        for (int i = 1; i <= a.size(); ++i) {\r",
+            "            t[i] += a[i - 1];\r",
+            "            int j = i + (i & -i);\r",
+            "            if (j < n + 1) t[j] += t[i];\r",
+            "        }\r",
+            "    }\r",
+            "\r",
+            "    void add(int i, T x) {\r",
+            "        for (++i; i < n; i += i & -i) t[i] += x;\r",
+            "    }\r",
+            "\r",
+            "    int sum(int l, int r) {\r",
+            "        return sum(r) - sum(l - 1);\r",
+            "    }\r",
+            "\r",
+            "    int sum(int i) {\r",
+            "        T res = 0;\r",
+            "        for (++i; i; i -= i & -i) res += t[i];\r",
+            "        return res;\r",
+            "    }\r",
+            "};\r",
+            ""
+        ],
+        "description": "FT"
+    }
 }
