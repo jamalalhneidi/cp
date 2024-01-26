@@ -10,9 +10,14 @@ struct FT2D {
     }
 
     FT2D(vector<vector<T>> &a) : FT2D(a.size(), a.front().size()) {
-        for (int i = 0; i < a.size(); ++i) {
-            for (int j = 0; j < a.front().size(); ++j) {
-                add(i, j, a[i][j]);
+        for (int i = 1; i <= a.size(); ++i) {
+            for (int j = 1; j <= a.front().size(); ++j) {
+                t[i][j] += a[i - 1][j - 1];
+                int ii = i + (i & -i);
+                int jj = j + (j & -j);
+                if (ii < n + 1) t[ii][j] += t[i][j];
+                if (jj < m + 1) t[i][jj] += t[i][j];
+                if (ii < n + 1 && jj < m + 1) t[ii][jj] -= t[i][j];
             }
         }
     }
