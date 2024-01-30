@@ -117,7 +117,7 @@ struct PST {
 
     int query(N *nl, N *nr, int ql, int qr, int l, int r) {
         if (l > qr || r < ql) return 0;
-        if (l >= ql && r <= qr) return (nr ? nr->s : 0) - (nl ? nl->s : 0);
+        if (l >= ql && r <= qr) return nr->s - nl->s;
         int m = mid(l, r);
         return query(nl->l, nr->l, ql, qr, l, m) + query(nl->r, nr->r, ql, qr, m + 1, r);
     }
