@@ -31,12 +31,12 @@ struct FT2D {
     }
 
     //          top left        bottom right
-    int sum(int x1, int y1, int x2, int y2) {
+    T sum(int x1, int y1, int x2, int y2) {
         return sum(x2, y2) + sum(x1 - 1, y1 - 1) -
                sum(x1 - 1, y2) - sum(x2, y1 - 1);
     }
 
-    int sum(int x, int y) {
+    T sum(int x, int y) {
         T res = 0;
         for (int i = x + 1; i; i -= i & -i) {
             for (int j = y + 1; j; j -= j & -j) {

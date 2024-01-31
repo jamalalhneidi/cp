@@ -20,11 +20,11 @@ struct FT {
         for (++i; i < n; i += i & -i) t[i] += x;
     }
 
-    int sum(int l, int r) {
+    T sum(int l, int r) {
         return sum(r) - sum(l - 1);
     }
 
-    int sum(int i) {
+    T sum(int i) {
         T res = 0;
         for (++i; i; i -= i & -i) res += t[i];
         return res;
