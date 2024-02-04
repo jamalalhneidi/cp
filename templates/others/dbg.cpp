@@ -37,6 +37,15 @@ ostream &operator<<(ostream &os, const pair<T1, T2> &p) {
     return os << '{' << p.first << ", " << p.second << '}';
 }
 
+template <class T>
+ostream &operator<<(ostream &os, const vector<vector<T>> &a) {
+    os << "[\n";
+    for (const auto &v : a) {
+        os << setw(10) << v << '\n';
+    }
+    return os << setw(10) << ']';
+}
+
 template <class T, class = decay_t<decltype(*begin(declval<T>()))>,
           class = enable_if_t<!is_same<T, string>::value>>
 ostream &operator<<(ostream &os, const T &c) {
