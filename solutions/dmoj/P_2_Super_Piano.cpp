@@ -1,3 +1,18 @@
+/*
+
+NOI '10 P2 - Super Piano
+
+https://dmoj.ca/problem/noi10p2
+
+persistent segment tree
+
+Notes:
+Heavy optimization required
+DO NOT GIVE STRUCT FIELDS DEFAULT VALUES WHEN ALLOCATING HUGE ARRAY OF STRUCT OBJECTS
+a huge preallocated array of objects + object fields have default values = compilation time skyrocket
+
+ */
+
 #include "bits/stdc++.h"
 
 #ifdef LOCAL
@@ -66,80 +81,89 @@ bool chmin(T &a, T b) {
 }
 
 const int MAX = 5e5 + 5;
-int n, k, L, R;
-int a[MAX];
-
 struct N {
     int l, r, mn, at;
-} nodes[23 * MAX];
+} nodes[22 * MAX];
 int roots[MAX];
 int idx = 0;
 
-int create(int mn, int at) {
-    nodes[idx].mn = mn;
-    nodes[idx].at = at;
-    nodes[idx].l = nodes[idx].r = at;
-    return idx++;
-}
-
-int merge(int l, int r) {
-    nodes[idx].l = l;
-    nodes[idx].r = r;
-    nodes[idx].mn = INF;
-    nodes[idx].at = -1;
-    if (l != -1 && chmin(nodes[idx].mn, nodes[l].mn))
-        nodes[idx].at = nodes[l].at;
-    if (r != -1 && chmin(nodes[idx].mn, nodes[r].mn))
-        nodes[idx].at = nodes[r].at;
-    return idx++;
-}
-
-int build(int l, int r) {
-    if (l == r) return create(a[l], l);
-    int m = mid(l, r);
-    return merge(build(l, m), build(m + 1, r));
-}
-int update(int i, int at, int x, int l, int r) {
-    if (l == r) return create(x, at);
-    int m = mid(l, r);
-    if (at <= m) return merge(update(nodes[i].l, at, x, l, m), nodes[i].r);
-    return merge(nodes[i].l, update(nodes[i].r, at, x, m + 1, r));
-}
-pii query(int i, int ql, int qr, int l, int r) {
-    if (l > qr || r < ql) return {INF, -1};
-    if (l >= ql && r <= qr) return {nodes[i].mn, nodes[i].at};
-    int m = mid(l, r);
-    auto resl = query(nodes[i].l, ql, qr, l, m);
-    auto resr = query(nodes[i].r, ql, qr, m + 1, r);
-    if (resl.F < resr.F) return resl;
-    return resr;
-}
+struct PST {
+    int n;
+    PST(int n, int a[]) {
+        this->n = n;
+        roots[0] = build(0, n - 1, a);
+        for (int i = 0; i < n; ++i) {
+            roots[i + 1] = roots[0];
+        }
+    }
+    int create(int mn, int at) {
+        nodes[idx].mn = mn;
+        nodes[idx].at = at;
+        nodes[idx].l = nodes[idx].r = at;
+        return idx++;
+    }
+    int merge(int l, int r) {
+        nodes[idx].l = l;
+        nodes[idx].r = r;
+        nodes[idx].mn = INF;
+        nodes[idx].at = -1;
+        if (l != -1 && chmin(nodes[idx].mn, nodes[l].mn))
+            nodes[idx].at = nodes[l].at;
+        if (r != -1 && chmin(nodes[idx].mn, nodes[r].mn))
+            nodes[idx].at = nodes[r].at;
+        return idx++;
+    }
+    int build(int l, int r, int a[]) {
+        if (l == r) return create(a[l], l);
+        int m = mid(l, r);
+        return merge(build(l, m, a), build(m + 1, r, a));
+    }
+    void update(int i, int at, int x) {
+        roots[i + 1] = update(roots[i + 1], at, x, 0, n - 1);
+    }
+    int update(int i, int at, int x, int l, int r) {
+        if (l == r) return create(x, at);
+        int m = mid(l, r);
+        if (at <= m) return merge(update(nodes[i].l, at, x, l, m), nodes[i].r);
+        return merge(nodes[i].l, update(nodes[i].r, at, x, m + 1, r));
+    }
+    int query(int i, int l, int r) {
+        return (query(roots[i + 1], l, r, 0, n - 1)).S;
+    }
+    pii query(int i, int ql, int qr, int l, int r) {
+        if (l > qr || r < ql) return {INF, -1};
+        if (l >= ql && r <= qr) return {nodes[i].mn, nodes[i].at};
+        int m = mid(l, r);
+        auto resl = query(nodes[i].l, ql, qr, l, m);
+        auto resr = query(nodes[i].r, ql, qr, m + 1, r);
+        if (resl.F < resr.F) return resl;
+        return resr;
+    }
+};
 
 void solve() {
+    int n, k, L, R;
     cin >> n >> k >> L >> R;
+    int a[n + 1]{0};
     for (int i = 0; i < n; ++i) {
         cin >> a[i + 1];
         a[i + 1] += a[i];
     }
-    roots[0] = build(0, n);
-    for (int i = 0; i <= n; ++i) {
-        roots[i + 1] = roots[0];
-    }
+    PST pst(n + 1, a);
     ll ans = 0;
     priority_queue<tuple<int, int, int>> pq;
     for (int i = 0; i <= n; ++i) {
         if (i - L < 0) continue;
-        auto [mn, at] = query(roots[i + 1], max(0, i - R), i - L, 0, n);
+        int at = pst.query(i, max(0, i - R), i - L);
         if (at != -1) pq.emplace(a[i] - a[at], at, i);
     }
-    while (k--) {
+    for (int _ = 0; _ < k; ++_) {
         auto [x, at, i] = pq.top();
         pq.pop();
         ans += x;
-        roots[i + 1] = update(roots[i + 1], at, INF, 0, n);
-        if (i - L < 0) continue;
-        auto [qmn, qat] = query(roots[i + 1], max(0, i - R), i - L, 0, n);
-        if (qat != -1) pq.emplace(a[i] - a[qat], qat, i);
+        pst.update(i, at, INF);
+        at = pst.query(i, max(0, i - R), i - L);
+        if (at != -1) pq.emplace(a[i] - a[at], at, i);
     }
     cout << ans;
 }
@@ -156,5 +180,6 @@ int main() {
     }
 }
 /*
+
 
  */
