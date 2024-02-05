@@ -8,6 +8,8 @@
                 "-std=c++23",
                 "-DLOCAL",
                 "-fdiagnostics-color=always",
+                "-fsanitize=address",
+                "-fsanitize=undefined",
                 "-g",
                 "${file}",
                 "-o",
