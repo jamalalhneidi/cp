@@ -87,6 +87,24 @@ struct N {
 int roots[MAX];
 int idx = 0;
 
+int create(int mn, int at) {
+    nodes[idx].mn = mn;
+    nodes[idx].at = at;
+    nodes[idx].l = nodes[idx].r = at;
+    return idx++;
+}
+int merge(int l, int r) {
+    nodes[idx].l = l;
+    nodes[idx].r = r;
+    nodes[idx].mn = INF;
+    nodes[idx].at = -1;
+    if (l != -1 && chmin(nodes[idx].mn, nodes[l].mn))
+        nodes[idx].at = nodes[l].at;
+    if (r != -1 && chmin(nodes[idx].mn, nodes[r].mn))
+        nodes[idx].at = nodes[r].at;
+    return idx++;
+}
+
 struct PST {
     int n;
     PST(int n, int a[]) {
@@ -95,23 +113,6 @@ struct PST {
         for (int i = 0; i < n; ++i) {
             roots[i + 1] = roots[0];
         }
-    }
-    int create(int mn, int at) {
-        nodes[idx].mn = mn;
-        nodes[idx].at = at;
-        nodes[idx].l = nodes[idx].r = at;
-        return idx++;
-    }
-    int merge(int l, int r) {
-        nodes[idx].l = l;
-        nodes[idx].r = r;
-        nodes[idx].mn = INF;
-        nodes[idx].at = -1;
-        if (l != -1 && chmin(nodes[idx].mn, nodes[l].mn))
-            nodes[idx].at = nodes[l].at;
-        if (r != -1 && chmin(nodes[idx].mn, nodes[r].mn))
-            nodes[idx].at = nodes[r].at;
-        return idx++;
     }
     int build(int l, int r, int a[]) {
         if (l == r) return create(a[l], l);
