@@ -561,6 +561,7 @@
             "int merge(int l, int r) {",
             "    nodes[idx].l = l;",
             "    nodes[idx].r = r;",
+            "    nodes[idx].s = 0;",
             "    if (l != -1) nodes[idx].s += nodes[l].s;",
             "    if (r != -1) nodes[idx].s += nodes[r].s;",
             "    return idx++;",
