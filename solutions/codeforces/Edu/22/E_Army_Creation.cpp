@@ -7,7 +7,7 @@ https://codeforces.com/problemset/problem/813/E
 persistent segment tree
 
 notes:
-kinda finding the number of distinct values in range,
+kinda like finding the number of distinct values in range,
 but instead of keeping the last position of each value active,
 we keep the last k positions active
 
