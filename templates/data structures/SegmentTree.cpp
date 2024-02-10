@@ -4,7 +4,7 @@ struct ST {
 
         D() {}
 
-        D(int x) {
+        D(ll x) {
             v = x;
         }
 
@@ -49,11 +49,14 @@ struct ST {
     vector<T> t;
     vector<D> d;
 
-    ST(int n, vi &a) {
+    ST(int n) {
         this->n = n;
         this->h = 31 - countl_zero(unsigned(n));
         t.resize(n << 1);
         d.resize(n);
+    }
+
+    ST(vi &a) : ST(a.size()) {
         for (int i = 0; i < n; ++i) t[i + n] = T(a[i]);
         for (int i = n - 1; i; --i) calc(i);
     }
