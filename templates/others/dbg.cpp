@@ -32,6 +32,16 @@ vector<string> vec_splitter(string s) {
     return res;
 }
 
+ostream &operator<<(ostream &os, __int128 x) {
+    string s;
+    bool f = false;
+    if (x < 0) f = true, x = -x;
+    while (x > 0) s += (x % 10) + '0', x /= 10;
+    if (f) s += '-';
+    reverse(s.begin(), s.end());
+    return os << s;
+}
+
 template <class T1, class T2>
 ostream &operator<<(ostream &os, const pair<T1, T2> &p) {
     return os << '{' << p.first << ", " << p.second << '}';
