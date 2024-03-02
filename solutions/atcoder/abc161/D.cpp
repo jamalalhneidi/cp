@@ -1,3 +1,14 @@
+/*
+
+Lunlun Number
+
+https://atcoder.jp/contests/abc161/tasks/abc161_d
+
+digit dp
+binary search
+
+ */
+
 #include "bits/stdc++.h"
 
 #ifdef LOCAL
