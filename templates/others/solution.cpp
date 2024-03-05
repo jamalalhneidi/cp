@@ -1,6 +1,6 @@
 #include "bits/stdc++.h"
 
-#ifdef cotato
+#ifdef COTATO
 
 #include "templates/others/dbg.cpp"
 
