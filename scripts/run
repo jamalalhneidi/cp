@@ -12,7 +12,7 @@ expected=$4
 
 compile() {
     echo "Compiling..."
-    g++ $1 -o "$2" -std=c++23 -DLOCAL -Wl,-z,stack-size=256000000 -O2
+    g++ $1 -o "$2" -std=c++23 -Dcotato -Wl,-z,stack-size=256000000 -O2
 }
 
 run() {
