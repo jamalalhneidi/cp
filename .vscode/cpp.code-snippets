@@ -134,7 +134,7 @@
         "body": [
             "#include \"bits/stdc++.h\"\r",
             "\r",
-            "#ifdef LOCAL\r",
+            "#ifdef COTATO\r",
             "\r",
             "#include \"templates/others/dbg.cpp\"\r",
             "\r",
