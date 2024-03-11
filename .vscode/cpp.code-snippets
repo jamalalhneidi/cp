@@ -672,5 +672,37 @@
             ""
         ],
         "description": "TRIE"
+    },
+    "MatrixExponentiation": {
+        "prefix": "MatrixExponentiation",
+        "body": [
+            "template <class T = int>\r",
+            "struct Matrix {\r",
+            "    T a[2][2];\r",
+            "    Matrix operator*(Matrix &that) {\r",
+            "        Matrix res{{{0, 0}, {0, 0}}};\r",
+            "        for (int k = 0; k < 2; ++k) {\r",
+            "            for (int i = 0; i < 2; ++i) {\r",
+            "                for (int j = 0; j < 2; ++j) {\r",
+            "                    res.a[i][j] += a[i][k] * that.a[k][j];\r",
+            "                }\r",
+            "            }\r",
+            "        }\r",
+            "        return res;\r",
+            "    }\r",
+            "    Matrix pow(ll n) {\r",
+            "        Matrix a = *this;\r",
+            "        Matrix res{{{1, 0}, {0, 1}}};\r",
+            "        while (n) {\r",
+            "            if (n & 1) res = res * a;\r",
+            "            a = a * a;\r",
+            "            n >>= 1;\r",
+            "        }\r",
+            "        return res;\r",
+            "    }\r",
+            "};\r",
+            ""
+        ],
+        "description": "MatrixExponentiation"
     }
 }
