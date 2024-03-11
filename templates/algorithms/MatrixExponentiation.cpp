@@ -1,11 +1,14 @@
-template <class T = int>
+template <class T = int, int N = 2>
 struct Matrix {
-    T a[2][2];
+    T a[N][N];
+    Matrix() {
+        memset(a, 0, sizeof(a));
+    }
     Matrix operator*(Matrix &that) {
-        Matrix res{{{0, 0}, {0, 0}}};
-        for (int k = 0; k < 2; ++k) {
-            for (int i = 0; i < 2; ++i) {
-                for (int j = 0; j < 2; ++j) {
+        Matrix<T, N> res;
+        for (int k = 0; k < N; ++k) {
+            for (int i = 0; i < N; ++i) {
+                for (int j = 0; j < N; ++j) {
                     res.a[i][j] += a[i][k] * that.a[k][j];
                 }
             }
@@ -13,8 +16,11 @@ struct Matrix {
         return res;
     }
     Matrix pow(ll n) {
-        Matrix a = *this;
-        Matrix res{{{1, 0}, {0, 1}}};
+        Matrix<T, N> a = *this;
+        Matrix<T, N> res;
+        for (int i = 0; i < 3; ++i) {
+            res.a[i][i] = 1;
+        }
         while (n) {
             if (n & 1) res = res * a;
             a = a * a;
