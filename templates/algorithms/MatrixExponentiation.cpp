@@ -1,9 +1,6 @@
 template <class T = int, int N = 2>
 struct Matrix {
     T a[N][N];
-    Matrix() {
-        memset(a, 0, sizeof(a));
-    }
     Matrix operator*(Matrix &that) {
         Matrix<T, N> res;
         for (int k = 0; k < N; ++k) {
