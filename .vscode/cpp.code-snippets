@@ -693,7 +693,7 @@
             "    Matrix pow(ll n) {\r",
             "        Matrix<T, N> a = *this;\r",
             "        Matrix<T, N> res;\r",
-            "        for (int i = 0; i < 3; ++i) {\r",
+            "        for (int i = 0; i < N; ++i) {\r",
             "            res.a[i][i] = 1;\r",
             "        }\r",
             "        while (n) {\r",

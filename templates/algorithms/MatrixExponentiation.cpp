@@ -15,7 +15,7 @@ struct Matrix {
     Matrix pow(ll n) {
         Matrix<T, N> a = *this;
         Matrix<T, N> res;
-        for (int i = 0; i < 3; ++i) {
+        for (int i = 0; i < N; ++i) {
             res.a[i][i] = 1;
         }
         while (n) {
