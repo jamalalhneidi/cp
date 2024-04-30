@@ -3,10 +3,10 @@
         {
             "type": "cppbuild",
             "label": "C/C++: g++ build active file",
-            "command": "/usr/bin/g++",
+            "command": "/usr/bin/g++-12",
             "args": [
                 "-std=c++23",
-                "-DLOCAL",
+                "-DCOTATO",
                 "-fdiagnostics-color=always",
                 "-fsanitize=address",
                 "-fsanitize=undefined",
