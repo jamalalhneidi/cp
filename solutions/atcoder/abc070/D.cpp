@@ -122,7 +122,7 @@ void solve() {
     while (q--) {
         int u, v;
         cin >> u >> v;
-        cout << min(f(u, k) + f(k, v), f(v, k) + f(k, u)) << endl;
+        cout << f(u, k) + f(k, v) << endl;
     }
 }
 
