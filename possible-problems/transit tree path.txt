@@ -1,0 +1,6 @@
+Inspired by https://atcoder.jp/contests/abc070/tasks/abc070_d but harder.
+
+Given a weighted tree.
+Answer Q queries:
+    given u,v,k: what's the cost of the shortest path form u to v passing by k?
+    
