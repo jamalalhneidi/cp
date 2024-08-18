@@ -6,6 +6,8 @@ https://atcoder.jp/contests/abc367/tasks/abc367_e
 
 binary lifting
 
+// Important notes below
+
  */
 
 #include "bits/stdc++.h"
@@ -83,6 +85,9 @@ void solve() {
     for (int i = 0; i < n; ++i) {
         up[0][i] = to[i];
     }
+    // swapping loops order is wrong
+    // not all ancestors of the ancestors of a vertex are defined
+    // therefore should process them in order, aka. first layer, second layer, and so on...
     for (int j = 0; j < m - 1; ++j) {
         for (int i = 0; i < n; ++i) {
             up[j + 1][i] = up[j][up[j][i]];
@@ -91,6 +96,11 @@ void solve() {
     ll cnt = 0;
     vi b(n);
     iota(all(b), 0);
+    // swapping loops order produces the corrcet answer
+    // HOWEVER it's ~17 times slower in practice (79 ms -> 1341 ms)
+    // even tho ther're identical in terms of complexity
+    // cuz that way for every vertex we're looping through all levels
+    // but this way we only loop through vertices of the levels we're interested in
     for (int j = 0; j < m; ++j) {
         if (k >> j & 1) {
             for (int i = 0; i < n; ++i) {
@@ -100,7 +110,6 @@ void solve() {
         }
     }
     for (auto i : b) cout << a[i] << spc;
-    dbg(cnt);
 }
 
 int main() {
