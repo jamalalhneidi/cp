@@ -55,7 +55,7 @@ typedef map<ll, ll> mll;
     for (auto &_x : (a)) cout << _x << spc
 #define len(l, r) ((r) - (l) + 1)
 #define mid(l, r) ((l) + ((r) - (l)) / 2)
-#define ceil(a, b) (!(a) ? 0 : ((a)-1) / (b) + 1)
+#define ceil(a, b) (!(a) ? 0 : ((a) - 1) / (b) + 1)
 #define yn(b) ((b) ? yes : no)
 #define between(x, l, r) ((x) >= (l) && (x) <= (r))
 #define between2(i, j, n, m) (between(i, 0, n - 1) && between(j, 0, m - 1))
