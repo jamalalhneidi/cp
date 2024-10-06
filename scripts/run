@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# run source.cpp in.txt out.txt expeteced.txt
+# run source.cpp in.txt out.txt expected.txt
 # To be placed in /usr/local/bin
 
 source=$1
