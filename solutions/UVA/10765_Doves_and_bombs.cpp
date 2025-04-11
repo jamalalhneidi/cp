@@ -1,8 +1,8 @@
 /*
 
-Tourist Guide
+Doves and bombs
 
-https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1140
+https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1706
 
 graphs
 articulation points
@@ -71,28 +71,17 @@ typedef map<ll, ll> mll;
 #define between(x, l, r) ((x) >= (l) && (x) <= (r))
 #define between2(i, j, n, m) (between(i, 0, n - 1) && between(j, 0, m - 1))
 
-void solve(int n) {
-    static int tc = 1;
-    unordered_map<string, int> toid;
-    unordered_map<int, string> toname;
-    for (int i = 0; i < n; ++i) {
-        string s;
-        cin >> s;
-        toid[s] = i;
-        toname[i] = s;
-    }
+void solve(int n, int m) {
     vvi adj(n);
-    int m;
-    cin >> m;
-    for (int i = 0; i < m; ++i) {
-        string s1, s2;
-        cin >> s1 >> s2;
-        int u = toid[s1], v = toid[s2];
-        adj[u].pb(v);
-        adj[v].pb(u);
+    {
+        int u, v;
+        while (cin >> u >> v, u != -1) {
+            adj[u].pb(v);
+            adj[v].pb(u);
+        }
     }
-    vi visited(n), tin(n), low(n), isAP(n);
     int time = 0;
+    vi visited(n), tin(n), low(n), ap(n), value(n, 1);
     function<void(int, int)> dfs = [&](int u, int p) {
         visited[u] = true;
         tin[u] = low[u] = time++;
@@ -105,33 +94,32 @@ void solve(int n) {
                 dfs(v, u);
                 ++sub;
                 low[u] = min(low[u], low[v]);
-                isAP[u] |= p != -1 && low[v] >= tin[u];
+                ap[u] |= p != -1 && low[v] >= tin[u];
+                value[u] += p != -1 && low[v] >= tin[u];
             }
         }
-        isAP[u] |= p == -1 && sub > 1;
+        ap[u] |= p == -1 && sub > 1;
+        if (p == -1) value[u] = sub;
     };
+    dfs(0, -1);
+    vpii ans;
     for (int i = 0; i < n; ++i) {
-        if (!visited[i]) dfs(i, -1);
+        ans.eb(i, value[i]);
     }
-    vector<string> ans;
-    for (int i = 0; i < n; ++i) {
-        if (isAP[i]) ans.pb(toname[i]);
-    }
-    sort(all(ans));
-    cout << "City map #" << tc++ << ": " << ans.size() << " camera(s) found" << endl;
-    for (int i = 0; i < ans.size(); ++i) {
-        cout << ans[i] << endl;
-    }
+    sort(all(ans), [&](auto p1, auto p2) {
+        if (p1.S == p2.S) return p1.F < p2.F;
+        return p1.S > p2.S;
+    });
+    ans.resize(m);
+    for (auto [x, y] : ans) cout << x << spc << y << endl;
 }
 
 int main() {
     fast;
-    int n;
-    string sep = "";
-    while (cin >> n, n) {
-        cout << sep;
-        sep = endl;
-        solve(n);
+    int n, m;
+    while (cin >> n >> m, n) {
+        solve(n, m);
+        cout << endl;
     }
 }
 /*
