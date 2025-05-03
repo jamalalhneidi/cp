@@ -80,9 +80,8 @@ void pre() {
     for (int i = 2; i < MAX; ++i) {
         if (!d[i]) d[i] = i, primes.pb(i);
         for (auto p : primes) {
-            if (i * p >= MAX) break;
+            if (i * p >= MAX || p > d[i]) break;
             d[i * p] = p;
-            if (i % p == 0) break;
         }
     }
 }
