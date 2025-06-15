@@ -4,7 +4,7 @@ Ruler (hard version)
 
 https://codeforces.com/contest/1999/problem/G2
 
-ternary search (right half-open interval)
+ternary search (left half-open interval)
 
  */
 
