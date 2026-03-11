@@ -32,7 +32,7 @@ vector<string> vec_splitter(string s) {
     return res;
 }
 
-ostream &operator<<(ostream &os, __int128 x) {
+ostream& operator<<(ostream& os, __int128 x) {
     string s;
     bool f = false;
     if (x < 0) f = true, x = -x;
@@ -43,26 +43,26 @@ ostream &operator<<(ostream &os, __int128 x) {
 }
 
 template <class T1, class T2>
-ostream &operator<<(ostream &os, const pair<T1, T2> &p) {
+ostream& operator<<(ostream& os, const pair<T1, T2>& p) {
     return os << '{' << p.first << ", " << p.second << '}';
-}
-
-template <class T>
-ostream &operator<<(ostream &os, const vector<vector<T>> &a) {
-    os << "[\n";
-    for (const auto &v : a) {
-        os << setw(10) << v << '\n';
-    }
-    return os << setw(10) << ']';
 }
 
 template <class T, class = decay_t<decltype(*begin(declval<T>()))>,
           class = enable_if_t<!is_same<T, string>::value>>
-ostream &operator<<(ostream &os, const T &c) {
+ostream& operator<<(ostream& os, const T& c) {
     os << '[';
     for (auto it = c.begin(); it != c.end(); ++it)
         os << &", "[2 * (it == c.begin())] << *it;
     return os << ']';
+}
+
+template <class T>
+ostream& operator<<(ostream& os, const vector<vector<T>>& a) {
+    os << "[\n";
+    for (const auto& v : a) {
+        os << setw(10) << v << '\n';
+    }
+    return os << setw(10) << ']';
 }
 
 void debug_out(
